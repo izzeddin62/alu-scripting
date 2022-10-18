@@ -1,9 +1,12 @@
 #!/usr/bin/python3
-"""get subscribers function""" 
+"""get subscribers function"""
+
 
 import json
 import requests
 import sys
+
+
 def number_of_subscribers(subreddit):
     """get all subscribers"""
     if len(sys.argv) < 2:
