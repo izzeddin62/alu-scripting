@@ -1,19 +1,14 @@
 #!/usr/bin/python3
+"""get hot post function"""
 
-"""search post function"""
 
-
-#from operator import itemgetter
 import json
 import requests
+import sys
 
 
-def count_words(subreddit, word_list, after=None):
-    """get all the keyword count"""
-
-    if len(word_list) == 0:
-        print(None)
-        return
+def recurse(subreddit,  hot_list=[], after=None):
+    """get top all hot post"""
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     headers = {"User-Agent": "Mozilla/5.0"}
     result = requests.get(url,
@@ -25,18 +20,8 @@ def count_words(subreddit, word_list, after=None):
         return None
     body = json.loads(result.text)
     if body["data"]["after"] is not None:
-        newlist = word_list
-        if type(word_list[0]) is str:
-            unique = [*set([i.lower() for i in word_list])]
-            newlist = [{"key": i, "count": 0} for i in unique]
-        for i in newlist:
-            for j in body["data"]["children"]:
-                count = j["data"]["title"].lower().count(i["key"])
-                i["count"] = i["count"] + count
-        return count_words(subreddit, newlist, body["data"]["after"])
+        children = body["data"]["children"]
+        newlist = hot_list + [i["data"]["title"] for i in children]
+        return recurse(subreddit, newlist, body["data"]["after"])
     else:
-        sorted_list = sorted(word_list, key=itemgetter("count", "key"))
-        sorted_list.reverse()
-        for i in sorted_list:
-            print("{}: {}".format(i["key"], i["count"]))
-        return
+        return hot_list
