@@ -19,11 +19,9 @@ def count_words(subreddit, word_list, after=None):
                           headers=headers,
                           params={"after": after},
                           allow_redirects=False)
-    return result
-    # listing = []
-    # if result.status_code != 200:
-    #     return None
-    # body = json.loads(result.text)
+    if result.status_code != 200:
+        return None
+    body = json.loads(result.text)
     # if body["data"]["after"] is not None:
     #     newlist = word_list
     #     if type(word_list[0]) is str:
