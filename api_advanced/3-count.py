@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """search post function"""
 
 
@@ -9,6 +10,7 @@ import requests
 
 def count_words(subreddit, word_list, after=None):
     """get all the keyword count"""
+
     if len(word_list) == 0:
         print(None)
         return
