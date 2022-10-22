@@ -43,8 +43,10 @@ def count_words(subreddit, word_list, after=None):
                 for k in j["data"]["title"].lower().split():
                     if i["key"] == k:
                         i["count"] = i["count"] + 1
-        key = operator.itemgetter("count", "key")
-        sorted_list = sorted(word_list, key=key, reverse=True)
+        key = operator.itemgetter("key")
+        sorted_list = sorted(word_list, key=key)
+        key = operator.itemgetter("count")
+        sorted_list = sorted(sorted_list, key=key, reverse=True)
         word_list = sorted_list
         for i in sorted_list:
             if i["count"] > 0:
