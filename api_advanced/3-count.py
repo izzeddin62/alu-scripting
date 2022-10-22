@@ -25,8 +25,15 @@ def count_words(subreddit, word_list, after=None):
     if body["data"]["after"] is not None:
         newlist = word_list
         if type(word_list[0]) is str:
-            unique = list(dict.fromkeys([i.lower() for i in word_list]))
-            newlist = [{"key": i, "count": 0} for i in unique]
+            temp = []
+            for i in word_list:
+                if not any(j['key'].lower() == i.lower() for j in temp):
+                    temp.append({"key": i.lower(), "count": 0, "times": 1})
+                else:
+                    item = list(filter(lambda search: search['key'] == i.lower(), temp))
+                    if len(item) > 0:
+                        item[0]["times"] = item[0]["times"] + 1
+            newlist = temp
         for i in newlist:
             for j in body["data"]["children"]:
                 for k in j["data"]["title"].lower().split():
@@ -36,8 +43,15 @@ def count_words(subreddit, word_list, after=None):
     else:
         newlist = word_list
         if type(word_list[0]) is str:
-            unique = list(dict.fromkeys([i.lower() for i in word_list]))
-            newlist = [{"key": i, "count": 0} for i in unique]
+            temp = []
+            for i in word_list:
+                if not any(j['key'].lower() == i.lower() for j in temp):
+                    temp.append({"key": i.lower(), "count": 0, "times": 1})
+                else:
+                    item = list(filter(lambda search: search['key'] == i.lower(), temp))
+                    if len(item) > 0:
+                        item[0]["times"] = item[0]["times"] + 1
+            newlist = temp
         for i in newlist:
             for j in body["data"]["children"]:
                 for k in j["data"]["title"].lower().split():
@@ -50,5 +64,5 @@ def count_words(subreddit, word_list, after=None):
         word_list = sorted_list
         for i in sorted_list:
             if i["count"] > 0:
-                print("{}: {}".format(i["key"], i["count"]))
+                print("{}: {}".format(i["key"], i["count"] * i["times"]))
         return
