@@ -30,9 +30,9 @@ def count_words(subreddit, word_list, after=None):
                 if not any(j['key'].lower() == i.lower() for j in temp):
                     temp.append({"key": i.lower(), "count": 0, "times": 1})
                 else:
-                    def filterfunc(search):
-                        search['key'] == i.lower()
-                    item = list(filter(filterfunc, temp))
+                    item = list(filter(
+                                lambda search: search['key'] == i.lower(),
+                                temp))
                     if len(item) > 0:
                         item[0]["times"] = item[0]["times"] + 1
             newlist = temp
@@ -50,9 +50,9 @@ def count_words(subreddit, word_list, after=None):
                 if not any(j['key'].lower() == i.lower() for j in temp):
                     temp.append({"key": i.lower(), "count": 0, "times": 1})
                 else:
-                    def filterfunc(search):
-                        search['key'] == i.lower()
-                    item = list(filter(filterfunc, temp))
+                    item = list(filter(
+                                lambda search: search['key'] == i.lower(),
+                                temp))
                     if len(item) > 0:
                         item[0]["times"] = item[0]["times"] + 1
             newlist = temp
