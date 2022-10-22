@@ -29,12 +29,14 @@ def count_words(subreddit, word_list, after=None):
             newlist = [{"key": i, "count": 0} for i in unique]
         for i in newlist:
             for j in body["data"]["children"]:
-                count = j["data"]["title"].lower().count(i["key"])
-                i["count"] = i["count"] + count
+                for k in j["data"]["title"].lower().split():
+                    if i["key"] == k:
+                        i["count"] = i["count"] + 1
         return count_words(subreddit, newlist, body["data"]["after"])
     else:
         sorted_list = sorted(word_list, key=operator.itemgetter("count", "key"))
         sorted_list.reverse()
         for i in sorted_list:
-            print("{}: {}".format(i["key"], i["count"]))
+            if i["count"] > 0:
+                print("{}: {}".format(i["key"], i["count"]))
         return
