@@ -34,7 +34,8 @@ def count_words(subreddit, word_list, after=None):
                         i["count"] = i["count"] + 1
         return count_words(subreddit, newlist, body["data"]["after"])
     else:
-        sorted_list = sorted(word_list, key=operator.itemgetter("count", "key"))
+        key = operator.itemgetter("count", "key")
+        sorted_list = sorted(word_list, key=key)
         sorted_list.reverse()
         for i in sorted_list:
             if i["count"] > 0:
